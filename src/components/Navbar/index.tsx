@@ -1,8 +1,9 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Stack, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Stack } from "@mui/material";
+import { NavbarItem } from "./molecules";
+import routes from "routes";
 
 const Navbar = () => {
   return (
@@ -10,12 +11,8 @@ const Navbar = () => {
       <AppBar position="sticky">
         <Toolbar>
           <Stack direction="row" spacing={5}>
-            <Link to={"/register"} style={{ textDecoration: "none" }}>
-              <Typography color={"white"}>Register</Typography>
-            </Link>
-            <Link to={"/login"} style={{ textDecoration: "none" }}>
-              <Typography color={"white"}>Login</Typography>
-            </Link>
+            <NavbarItem route={routes.register} label={"Register"} />
+            <NavbarItem route={routes.login} label={"Login"} />
           </Stack>
         </Toolbar>
       </AppBar>
