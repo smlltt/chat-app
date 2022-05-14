@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Stack, Button, TextField, Box, Container } from "@mui/material";
+import { Stack, Button, TextField, Container, Typography } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
 import useValidationSchema from "./useValidation";
 
@@ -24,6 +24,9 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
     <form onSubmit={formik.handleSubmit}>
       <Container maxWidth={"sm"}>
         <Stack direction={"column"} spacing={2} mt={20}>
+          <Typography variant={"h4"} alignSelf={"center"} mb={3}>
+            Register
+          </Typography>
           <TextField
             id="userName"
             name="userName"
