@@ -4,20 +4,19 @@ import { FormikValues, useFormik } from "formik";
 import useValidationSchema from "./useValidation";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-interface RegisterComponentProps {
+interface LoginComponentProps {
   handleSubmit: (
     values: FormikValues,
     setSubmitting: (isSubmitting: boolean) => void
   ) => void;
 }
 
-const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
+const LoginComponent: FC<LoginComponentProps> = ({ handleSubmit }) => {
   const validationSchema = useValidationSchema();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      name: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
@@ -29,18 +28,8 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
       <Container maxWidth={"sm"}>
         <Stack direction={"column"} spacing={2} mt={20}>
           <Typography variant={"h4"} alignSelf={"center"} mb={3}>
-            Register
+            Login
           </Typography>
-          <TextField
-            id="name"
-            name="name"
-            label="Name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-            placeholder={"Name"}
-          />
           <TextField
             id="email"
             name="email"
@@ -68,7 +57,7 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
             type="submit"
             loading={formik.isSubmitting}
           >
-            Register
+            Login
           </LoadingButton>
         </Stack>
       </Container>
@@ -76,4 +65,4 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
   );
 };
 
-export default RegisterComponent;
+export default LoginComponent;
