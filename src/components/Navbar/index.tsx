@@ -4,22 +4,23 @@ import Toolbar from "@mui/material/Toolbar";
 import { Box, Button, Stack } from "@mui/material";
 import { NavbarItem } from "./molecules";
 import routes from "routes";
-import { auth } from "config/firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth, db } from "config/firebase";
+import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { doc, updateDoc } from "firebase/firestore";
+import { useAuth } from "hooks";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setLoggedIn(true);
-    }
-  });
 
   const handleSignout = async () => {
+    const uid = auth.currentUser?.uid;
+    uid &&
+      (await updateDoc(doc(db, "users", uid), {
+        isOnline: false,
+      }));
     await signOut(auth);
-    setLoggedIn(false);
     navigate(routes.home);
   };
 
@@ -28,7 +29,7 @@ const Navbar = () => {
       <AppBar position="sticky">
         <Toolbar>
           <Stack direction="row" spacing={5} alignItems="center">
-            {loggedIn ? (
+            {!!user ? (
               <>
                 <NavbarItem route={routes.profile} label={"Profile"} />
                 <Button
