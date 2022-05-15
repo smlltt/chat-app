@@ -21,7 +21,7 @@ const Navbar = () => {
         isOnline: false,
       }));
     await signOut(auth);
-    navigate(routes.home);
+    navigate(routes.login);
   };
 
   return (
