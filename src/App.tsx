@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Register, Login } from "pages";
 import Navbar from "components/Navbar";
-import { ToastContextProvider } from "./contexts";
+import { ToastContextProvider } from "hooks/useToast";
 
 function App() {
   return (

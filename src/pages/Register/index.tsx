@@ -7,7 +7,7 @@ import { useToast } from "hooks";
 import { ToastTypeEnum } from "components/molecules/Toast/models";
 
 const Register = () => {
-  const { setShowToast, setAdHocContent } = useToast();
+  const { handleToast } = useToast();
 
   const handleSubmit = async (values: FormikValues) => {
     const { email, password } = values;
@@ -18,12 +18,11 @@ const Register = () => {
         password
       );
       if (registrationResult) {
-        setShowToast(ToastTypeEnum.SUCCESS);
+        handleToast(ToastTypeEnum.SUCCESS);
         //  TODO add redirect
       }
     } catch (err: any) {
-      setShowToast(ToastTypeEnum.ERROR);
-      setAdHocContent(err.message);
+      handleToast(ToastTypeEnum.ERROR, err.message);
     }
   };
   return <RegisterComponent handleSubmit={handleSubmit} />;
