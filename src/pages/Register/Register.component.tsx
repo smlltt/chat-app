@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import { Stack, Button, TextField, Container, Typography } from "@mui/material";
+import { Stack, TextField, Container, Typography } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
 import useValidationSchema from "./useValidation";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface RegisterComponentProps {
   handleSubmit: (
@@ -61,14 +62,14 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
             helperText={formik.touched.password && formik.errors.password}
             placeholder={"Password"}
           />
-          <Button
+          <LoadingButton
             color="primary"
             variant="contained"
             type="submit"
-            disabled={formik.isSubmitting}
+            loading={formik.isSubmitting}
           >
             Submit
-          </Button>
+          </LoadingButton>
         </Stack>
       </Container>
     </form>

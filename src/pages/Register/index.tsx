@@ -12,14 +12,12 @@ import routes from "routes";
 const Register = () => {
   const navigate = useNavigate();
   const { handleToast } = useToast();
+
   const handleSubmit = async (
     values: FormikValues,
     setSubmitting: (isSubmitting: boolean) => void
   ) => {
     const { email, password, name } = values;
-
-  const handleSubmit = async (values: FormikValues) => {
-    const { email, password } = values;
     try {
       const registrationResult = await createUserWithEmailAndPassword(
         auth,
