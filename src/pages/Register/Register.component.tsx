@@ -4,7 +4,10 @@ import { FormikValues, useFormik } from "formik";
 import useValidationSchema from "./useValidation";
 
 interface RegisterComponentProps {
-  handleSubmit: (values: FormikValues) => void;
+  handleSubmit: (
+    values: FormikValues,
+    setSubmitting: (isSubmitting: boolean) => void
+  ) => void;
 }
 
 const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
@@ -13,11 +16,11 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
     initialValues: {
       email: "",
       password: "",
-      userName: "",
+      name: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      handleSubmit(values);
+    onSubmit: (values, { setSubmitting }) => {
+      handleSubmit(values, setSubmitting);
     },
   });
   return (
@@ -28,14 +31,14 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
             Register
           </Typography>
           <TextField
-            id="userName"
-            name="userName"
-            label="Username"
-            value={formik.values.userName}
+            id="name"
+            name="name"
+            label="Name"
+            value={formik.values.name}
             onChange={formik.handleChange}
-            error={formik.touched.userName && Boolean(formik.errors.userName)}
-            helperText={formik.touched.userName && formik.errors.userName}
-            placeholder={"Username"}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            placeholder={"Name"}
           />
           <TextField
             id="email"
@@ -58,7 +61,12 @@ const RegisterComponent: FC<RegisterComponentProps> = ({ handleSubmit }) => {
             helperText={formik.touched.password && formik.errors.password}
             placeholder={"Password"}
           />
-          <Button color="primary" variant="contained" type="submit">
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
             Submit
           </Button>
         </Stack>
