@@ -5,10 +5,9 @@ import { Box, Button, Stack } from "@mui/material";
 import { NavbarItem } from "./molecules";
 import routes from "routes";
 import { auth, db } from "config/firebase";
-import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "hooks";
+import { ApiFirebase } from "api";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -17,10 +16,8 @@ const Navbar = () => {
   const handleSignout = async () => {
     const uid = auth.currentUser?.uid;
     uid &&
-      (await updateDoc(doc(db, "users", uid), {
-        isOnline: false,
-      }));
-    await signOut(auth);
+      (await ApiFirebase.updateDocument("users", uid, { isOnline: false }));
+    await ApiFirebase.signOut();
     navigate(routes.login);
   };
 

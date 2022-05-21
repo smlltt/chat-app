@@ -1,8 +1,7 @@
 import { useContext, useEffect, useMemo } from "react";
 import React, { FC, createContext, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-
-import { auth } from "config/firebase";
+import { User } from "firebase/auth";
+import { ApiFirebase } from "api";
 
 export type AuthState = {
   user: null | User;
@@ -16,10 +15,9 @@ const AuthContext = createContext<AuthState>(DEFAULT_STATE);
 
 export const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<null | User>(null);
+
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
+    ApiFirebase.detectLogin(setUser);
   }, []);
 
   const authUser = useMemo(() => ({ user }), [user]);

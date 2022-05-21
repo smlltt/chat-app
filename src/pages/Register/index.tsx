@@ -1,13 +1,12 @@
 import React from "react";
 import { FormikValues } from "formik";
 import RegisterComponent from "./Register.component";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useToast } from "hooks";
 import { ToastTypeEnum } from "components/molecules/Toast/models";
-import { auth, db } from "config/firebase";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import routes from "routes";
+import { ApiFirebase } from "api";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,13 +18,9 @@ const Register = () => {
   ) => {
     const { email, password, name } = values;
     try {
-      const registrationResult = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const registrationResult = await ApiFirebase.createUser(email, password);
       const uid = registrationResult.user.uid;
-      await setDoc(doc(db, "users", uid), {
+      await ApiFirebase.createDocument("users", uid, {
         uid,
         name,
         createdAt: Timestamp.fromDate(new Date()),

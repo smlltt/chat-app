@@ -1,13 +1,11 @@
 import React from "react";
 import { FormikValues } from "formik";
 import LoginComponent from "./Login.component";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useToast } from "hooks";
 import { ToastTypeEnum } from "components/molecules/Toast/models";
-import { auth, db } from "config/firebase";
-import { doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import routes from "routes";
+import { ApiFirebase } from "api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,15 +17,9 @@ const Login = () => {
   ) => {
     const { email, password } = values;
     try {
-      const signInResult = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const signInResult = await ApiFirebase.signIn(email, password);
       const uid = signInResult.user.uid;
-      await updateDoc(doc(db, "users", uid), {
-        isOnline: true,
-      });
+      await ApiFirebase.updateDocument("users", uid, { isOnline: true });
       handleToast(ToastTypeEnum.SUCCESS);
       navigate(routes.home);
     } catch (err: any) {
