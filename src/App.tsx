@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, Register, Login } from "pages";
+import { Home, Register, Login, Profile } from "pages";
 import Navbar from "components/Navbar";
 import { ToastContextProvider, AuthProvider } from "hooks";
 import { PrivateRoute } from "components";
@@ -23,6 +23,14 @@ function App() {
             />
             <Route path={routes.register} element={<Register />} />
             <Route path={routes.login} element={<Login />} />
+            <Route
+              path={routes.profile}
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </ToastContextProvider>
       </AuthProvider>
