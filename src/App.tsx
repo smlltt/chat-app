@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Register, Login } from "pages";
 import Navbar from "components/Navbar";
 import { ToastContextProvider, AuthProvider } from "hooks";
+import { PrivateRoute } from "components";
+import routes from "routes";
 
 function App() {
   return (
@@ -11,9 +13,16 @@ function App() {
         <ToastContextProvider>
           <Navbar />
           <Routes>
-            <Route path={"/"} element={<Home />} />
-            <Route path={"/register"} element={<Register />} />
-            <Route path={"/login"} element={<Login />} />
+            <Route
+              path={routes.home}
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route path={routes.register} element={<Register />} />
+            <Route path={routes.login} element={<Login />} />
           </Routes>
         </ToastContextProvider>
       </AuthProvider>

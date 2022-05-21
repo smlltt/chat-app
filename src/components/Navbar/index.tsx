@@ -7,7 +7,7 @@ import routes from "routes";
 import { auth, db } from "config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks";
-import { ApiFirebase } from "api";
+import { ApiFirebase } from "../../api";
 
 const Navbar = () => {
   const { user } = useAuth();
