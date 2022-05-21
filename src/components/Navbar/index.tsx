@@ -30,7 +30,7 @@ const Navbar = () => {
               <>
                 <NavbarItem route={routes.profile} label={"Profile"} />
                 <Button
-                  variant="contained"
+                  variant={"outlinedBlue" as any}
                   disableElevation
                   onClick={handleSignout}
                 >
