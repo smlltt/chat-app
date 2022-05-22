@@ -29,13 +29,11 @@ const Navbar = () => {
             {!!user ? (
               <>
                 <NavbarItem route={routes.profile} label={"Profile"} />
-                <Button
-                  variant={"outlinedBlue" as any}
-                  disableElevation
-                  onClick={handleSignout}
-                >
-                  Logout
-                </Button>
+                <NavbarItem
+                  route={routes.login}
+                  label={"Logout"}
+                  handleClick={handleSignout}
+                />
               </>
             ) : (
               <>
