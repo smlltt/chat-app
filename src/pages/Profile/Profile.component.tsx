@@ -99,7 +99,7 @@ const StyledAvatar = styled(Avatar)<{ loading: boolean }>(({ loading }) => ({
 
 const StyledCircularProgress = styled(CircularProgress)<{ loading: boolean }>(
   ({ loading }) => ({
-    opacity: loading ? "1 !important" : 0,
+    opacity: loading ? 1 : 0,
   })
 );
 
