@@ -1,3 +1,4 @@
 import getToastContent from "./getToastContent";
+import getInitials from "./getInitials";
 
-export { getToastContent };
+export { getToastContent, getInitials };

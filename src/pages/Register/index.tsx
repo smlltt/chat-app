@@ -23,6 +23,7 @@ const Register = () => {
       await ApiFirebase.createDocument("users", uid, {
         uid,
         name,
+        email,
         createdAt: Timestamp.fromDate(new Date()),
         isOnline: true,
       });
