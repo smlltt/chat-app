@@ -3,7 +3,7 @@ import { FieldRequired } from "consts";
 
 const useValidationSchema = () =>
   yup.object({
-    userName: yup.string().required(FieldRequired),
+    name: yup.string().required(FieldRequired),
     email: yup.string().email("Enter a valid email").required(FieldRequired),
     password: yup
       .string()
