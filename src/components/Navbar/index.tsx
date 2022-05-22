@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Box, Button, Stack } from "@mui/material";
 import { NavbarItem } from "./molecules";
 import routes from "routes";
-import { auth, db } from "config/firebase";
+import { auth } from "config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks";
 import { ApiFirebase } from "api";

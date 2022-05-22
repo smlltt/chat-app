@@ -10,16 +10,16 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <ToastContextProvider>
-          <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <ToastContextProvider>
             <Navbar />
             <Routes>
               <Route path={"/"} element={<Home />} />
               <Route path={"/register"} element={<Register />} />
               <Route path={"/login"} element={<Login />} />
             </Routes>
-          </ThemeProvider>
-        </ToastContextProvider>
+          </ToastContextProvider>
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   );
