@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import ProfileComponent from "./Profile.component";
 import { ApiFirebase } from "api";
 import { app, auth } from "config/firebase";
-import { useToast } from "hooks";
+import { useStopLoadingAndShowToast } from "hooks";
 import { ToastTypeEnum } from "components/molecules/Toast/models";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { getFirestore, doc } from "firebase/firestore";
@@ -13,8 +13,8 @@ const Profile = () => {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const { handleToast } = useToast();
   const [loading, setLoading] = useState(false);
+  const { stopLoadingAndShowToast } = useStopLoadingAndShowToast()
 
   const uploadImage = async (image: File) => {
     setLoading(true);
@@ -25,8 +25,7 @@ const Profile = () => {
       const snap = await ApiFirebase.uploadFile(imgRef, image);
       updateUserImage(snap.ref.fullPath);
     } catch (err: any) {
-      setLoading(false);
-      handleToast(ToastTypeEnum.ERROR, err.message);
+      stopLoadingAndShowToast(setLoading, ToastTypeEnum.ERROR, err.message)
     }
   };
 
@@ -38,11 +37,9 @@ const Profile = () => {
           avatar: url,
           avatarPath: path,
         });
-        setLoading(false);
-        handleToast(ToastTypeEnum.SUCCESS);
+        stopLoadingAndShowToast(setLoading, ToastTypeEnum.SUCCESS)
       } catch (err: any) {
-        setLoading(false);
-        handleToast(ToastTypeEnum.ERROR, err.message);
+        stopLoadingAndShowToast(setLoading, ToastTypeEnum.ERROR, err.message)
       }
     }
   };
