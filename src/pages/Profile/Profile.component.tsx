@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Delete from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 import { getInitials } from "utils";
 import { DocumentData } from "firebase/firestore";
@@ -18,12 +19,14 @@ interface ProfileComponentProps {
   handleImageSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   user?: DocumentData;
   loading: boolean;
+  handleDeleteClick: () => void;
 }
 
 const ProfileComponent: FC<ProfileComponentProps> = ({
   handleImageSelect,
   user,
   loading,
+  handleDeleteClick,
 }) => {
   return !!user ? (
     <Stack
@@ -54,12 +57,17 @@ const ProfileComponent: FC<ProfileComponentProps> = ({
                     type="file"
                     onChange={(e) => handleImageSelect(e)}
                   />
-                  <IconButton
-                    color="primary"
-                    aria-label="upload picture"
-                    component="span"
-                  >
-                    <PhotoCamera />
+                  <IconButton aria-label="upload picture" component="span">
+                    <PhotoCamera color="primary" />
+                    {user.avatar && (
+                      <Delete
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleDeleteClick();
+                        }}
+                        color={"error"}
+                      />
+                    )}
                   </IconButton>
                 </label>
               )}

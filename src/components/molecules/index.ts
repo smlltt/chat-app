@@ -1,3 +1,4 @@
 import Toast from "./Toast";
+import BasicDialog from "./BasicDialog";
 
-export { Toast };
+export { Toast, BasicDialog };
