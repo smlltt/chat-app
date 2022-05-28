@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 interface NavbarItemProps {
   route: string;
   label: string;
+  handleClick?: () => void;
 }
 
-const NavbarItem: FC<NavbarItemProps> = ({ route, label }) => (
+const NavbarItem: FC<NavbarItemProps> = ({ route, label, handleClick }) => (
   <Link to={route} style={{ textDecoration: "none" }}>
-    <Typography color={"white"}>{label}</Typography>
+    <Typography color={"white"} onClick={handleClick}>
+      {label}
+    </Typography>
   </Link>
 );
 
