@@ -22,6 +22,8 @@ const Profile = () => {
       `avatar/${new Date().getTime()} - ${image.name}`
     );
     try {
+      const currentAvatarPath = value?.data()?.avatarPath;
+      currentAvatarPath && await ApiFirebase.deleteFile(currentAvatarPath);
       const snap = await ApiFirebase.uploadFile(imgRef, image);
       updateUserImage(snap.ref.fullPath);
     } catch (err: any) {

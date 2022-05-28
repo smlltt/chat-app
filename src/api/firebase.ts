@@ -12,6 +12,7 @@ import {
   StorageReference,
   uploadBytes,
   getDownloadURL,
+    deleteObject,
 } from "firebase/storage";
 
 const ApiFirebase = {
@@ -21,6 +22,7 @@ const ApiFirebase = {
   createDocument: (collection: string, docId: string, data: {}) => {
     setDoc(doc(db, collection, docId), data);
   },
+  deleteFile: (path: string) => deleteObject(ref(storage, path)),
   detectLogin: (setUser: (user: User | null) => void) => {
     onAuthStateChanged(auth, (user) => setUser(user));
   },
