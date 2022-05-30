@@ -1,4 +1,13 @@
-import { doc, updateDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  setDoc,
+  collection,
+  query,
+  where,
+  WhereFilterOp,
+  FieldPath,
+} from "firebase/firestore";
 import { auth, db, storage } from "config/firebase";
 import {
   signOut,
@@ -12,7 +21,7 @@ import {
   StorageReference,
   uploadBytes,
   getDownloadURL,
-    deleteObject,
+  deleteObject,
 } from "firebase/storage";
 
 const ApiFirebase = {
@@ -22,6 +31,16 @@ const ApiFirebase = {
   createDocument: (collection: string, docId: string, data: {}) => {
     setDoc(doc(db, collection, docId), data);
   },
+  createQuery: (
+    selectedCollection: string,
+    fieldPath: string | FieldPath,
+    logicOperator: WhereFilterOp,
+    value: string | boolean
+  ) =>
+    query(
+      collection(db, selectedCollection),
+      where(fieldPath, logicOperator, value)
+    ),
   deleteFile: (path: string) => deleteObject(ref(storage, path)),
   detectLogin: (setUser: (user: User | null) => void) => {
     onAuthStateChanged(auth, (user) => setUser(user));

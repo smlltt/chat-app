@@ -28,6 +28,7 @@ const Navbar = () => {
           <Stack direction="row" spacing={5} alignItems="center">
             {!!user ? (
               <>
+                <NavbarItem route={routes.home} label={"Home"} />
                 <NavbarItem route={routes.profile} label={"Profile"} />
                 <NavbarItem
                   route={routes.login}

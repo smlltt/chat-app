@@ -47,13 +47,6 @@ const Profile = () => {
     }
   };
 
-  const handleImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) {
-      return;
-    }
-    uploadImage(e.target.files[0]);
-  };
-
   const deleteImage = async () => {
     setLoading(true);
     if (currentAvatarPath) {
@@ -64,6 +57,13 @@ const Profile = () => {
         stopLoadingAndShowToast(setLoading, ToastTypeEnum.ERROR, err.message);
       }
     }
+  };
+
+  const handleImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    uploadImage(e.target.files[0]);
   };
 
   return (
