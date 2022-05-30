@@ -2,7 +2,13 @@ import React from "react";
 import { ApiFirebase } from "api";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { auth } from "config/firebase";
-import { Grid, Box, CircularProgress, useMediaQuery } from "@mui/material";
+import {
+  Grid,
+  Box,
+  CircularProgress,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { ErrorPlaceholder, User } from "components/molecules";
 
 const Users = () => {
@@ -10,7 +16,8 @@ const Users = () => {
   const usersQuery = uid
     ? ApiFirebase.createQuery("users", "uid", "!=", uid)
     : undefined;
-  const isBigScreen = useMediaQuery("(min-width:600px)");
+  const theme = useTheme();
+  const isBigScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [users, loading, error] = useCollection(usersQuery);
 
@@ -21,7 +28,7 @@ const Users = () => {
       sm={4}
       direction={"column"}
       height={`calc(100vh - ${isBigScreen ? "64px" : "56px"})`}
-      sx={{ overflowY: "scroll" }}
+      sx={{ overflowY: "auto" }}
     >
       {(loading || error) && (
         <Box
