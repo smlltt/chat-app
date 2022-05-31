@@ -6,11 +6,12 @@ import { DocumentData } from "firebase/firestore";
 
 interface UserInterface {
   user: DocumentData;
+  handleUserClick: (user: DocumentData) => void;
 }
 
-const User: FC<UserInterface> = ({ user }) => {
+const User: FC<UserInterface> = ({ user, handleUserClick }) => {
   return (
-    <Card key={user.id}>
+    <StyledCard key={user.id} onClick={() => handleUserClick(user)}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
           avatar={<Avatar src={user.avatar}>{getInitials(user.name)}</Avatar>}
@@ -21,7 +22,7 @@ const User: FC<UserInterface> = ({ user }) => {
         </Box>
       </Stack>
       <Divider />
-    </Card>
+    </StyledCard>
   );
 };
 
@@ -33,3 +34,7 @@ const IsOnlineDot = styled(Box)(({ isOnline }: { isOnline: boolean }) => ({
   backgroundColor: isOnline ? "green" : "red",
   borderRadius: "50%",
 }));
+
+const StyledCard = styled(Card)({
+  cursor: "pointer",
+});
