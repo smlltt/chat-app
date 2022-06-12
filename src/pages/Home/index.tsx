@@ -8,7 +8,7 @@ const Home = () => {
   const [chat, setChat] = useState<DocumentData | undefined>(undefined);
   const [showUsers, setShowUsers] = useState<ShowUsers>({
     usersWrapperSpace: 2,
-    usersDisplay: "block",
+    usersDisplay: "none",
     conversationWrapperSpace: 10,
   });
 
