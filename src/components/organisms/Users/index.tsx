@@ -4,12 +4,19 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth } from "config/firebase";
 import UsersComponent from "./Users.component";
 import { DocumentData } from "firebase/firestore";
+import { ShowUsers } from "pages/Home/types";
 
 interface UsersProps {
   selectUser: (user: DocumentData) => void;
+  handleHamurgerClick: () => void;
+  showUsers: ShowUsers;
 }
 
-const Users: FC<UsersProps> = ({ selectUser }) => {
+const Users: FC<UsersProps> = ({
+  selectUser,
+  handleHamurgerClick,
+  showUsers,
+}) => {
   const uid = auth.currentUser?.uid;
   const usersQuery = uid
     ? ApiFirebase.createQuery("users", "uid", "!=", uid)
@@ -23,6 +30,8 @@ const Users: FC<UsersProps> = ({ selectUser }) => {
       error={error}
       users={users}
       handleUserClick={selectUser}
+      handleHamurgerClick={handleHamurgerClick}
+      showUsers={showUsers}
     />
   );
 };
