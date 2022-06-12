@@ -5,12 +5,15 @@ import Navbar from "components/Navbar";
 import { ToastContextProvider, AuthProvider } from "hooks";
 import { PrivateRoute } from "components";
 import routes from "routes";
+import theme from "theme";
+import { ThemeProvider } from "@mui/material/styles";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <ToastContextProvider>
+        <ThemeProvider theme={theme}>
+          <ToastContextProvider>
           <Navbar />
           <Routes>
             <Route
@@ -22,7 +25,7 @@ function App() {
               }
             />
             <Route path={routes.register} element={<Register />} />
-            <Route path={routes.login} element={<Login />} />
+              <Route path={routes.login} element={<Login />} />
             <Route
               path={routes.profile}
               element={
@@ -31,8 +34,9 @@ function App() {
                 </PrivateRoute>
               }
             />
-          </Routes>
-        </ToastContextProvider>
+            </Routes>
+          </ToastContextProvider>
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   );

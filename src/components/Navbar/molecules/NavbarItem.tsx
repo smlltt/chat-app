@@ -10,7 +10,9 @@ interface NavbarItemProps {
 
 const NavbarItem: FC<NavbarItemProps> = ({ route, label, handleClick }) => (
   <Link to={route} style={{ textDecoration: "none" }} onClick={handleClick}>
-    <Typography color={"white"}>{label}</Typography>
+    <Typography color={"white"} onClick={handleClick}>
+      {label}
+    </Typography>
   </Link>
 );
 
