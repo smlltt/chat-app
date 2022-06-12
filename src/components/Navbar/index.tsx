@@ -1,7 +1,7 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { NavbarItem } from "./molecules";
 import routes from "routes";
 import { auth } from "config/firebase";
@@ -28,6 +28,7 @@ const Navbar = () => {
           <Stack direction="row" spacing={5} alignItems="center">
             {!!user ? (
               <>
+                <NavbarItem route={routes.home} label={"Home"} />
                 <NavbarItem route={routes.profile} label={"Profile"} />
                 <NavbarItem
                   route={routes.login}
