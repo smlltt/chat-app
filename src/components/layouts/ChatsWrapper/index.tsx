@@ -9,6 +9,7 @@ const ChatsWrapper: FC<ChatsWrapperProps> = ({ children, ...rest }) => {
 
   return (
     <Grid
+      container
       item
       direction={"column"}
       height={`calc(100vh - ${isBigScreen ? "64px" : "56px"})`}

@@ -1,21 +1,21 @@
 import React, { ChangeEvent, useState } from "react";
 import ProfileComponent from "./Profile.component";
 import { ApiFirebase } from "api";
-import { app, auth } from "config/firebase";
+import { auth } from "config/firebase";
 import { useStopLoadingAndShowToast } from "hooks";
 import { ToastTypeEnum } from "components/molecules/Toast/models";
-import { useDocument } from "react-firebase-hooks/firestore";
-import { getFirestore, doc } from "firebase/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { BasicDialog } from "components/molecules";
 
 const Profile = () => {
   const uid = auth.currentUser?.uid;
-  const [value] = useDocument(doc(getFirestore(app), "users", uid || ""), {
+  const [value] = useDocumentData(ApiFirebase.userRef(uid), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
-  const currentAvatarPath = value?.data()?.avatarPath;
+
+  const currentAvatarPath = value?.avatarPath;
   const [loading, setLoading] = useState(false);
-  const { stopLoadingAndShowToast } = useStopLoadingAndShowToast();
+  const stopLoadingAndShowToast = useStopLoadingAndShowToast(setLoading);
   const [showDeleteImgModal, setShowDeleteImgModal] = useState(false);
 
   const uploadImage = async (image: File) => {
@@ -28,7 +28,7 @@ const Profile = () => {
       const snap = await ApiFirebase.uploadFile(imgRef, image);
       updateUserImage(snap.ref.fullPath);
     } catch (err: any) {
-      stopLoadingAndShowToast(setLoading, ToastTypeEnum.ERROR, err.message);
+      stopLoadingAndShowToast(ToastTypeEnum.ERROR, err.message);
     }
   };
 
@@ -40,9 +40,9 @@ const Profile = () => {
           avatar: url,
           avatarPath: path,
         });
-        stopLoadingAndShowToast(setLoading, ToastTypeEnum.SUCCESS);
+        stopLoadingAndShowToast(ToastTypeEnum.SUCCESS);
       } catch (err: any) {
-        stopLoadingAndShowToast(setLoading, ToastTypeEnum.ERROR, err.message);
+        stopLoadingAndShowToast(ToastTypeEnum.ERROR, err.message);
       }
     }
   };
@@ -54,7 +54,7 @@ const Profile = () => {
         await ApiFirebase.deleteFile(currentAvatarPath);
         await updateUserImage("");
       } catch (err: any) {
-        stopLoadingAndShowToast(setLoading, ToastTypeEnum.ERROR, err.message);
+        stopLoadingAndShowToast(ToastTypeEnum.ERROR, err.message);
       }
     }
   };
@@ -70,7 +70,7 @@ const Profile = () => {
     <>
       <ProfileComponent
         handleImageSelect={handleImageSelect}
-        user={value?.data()}
+        user={value}
         loading={loading}
         handleDeleteClick={(): void => setShowDeleteImgModal(true)}
       />

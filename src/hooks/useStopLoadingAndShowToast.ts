@@ -1,13 +1,14 @@
-import {useToast} from "./index";
-import {ToastTypeEnum} from "components/molecules/Toast/models";
+import { useToast } from "./index";
+import { ToastTypeEnum } from "components/molecules/Toast/models";
+import { useCallback } from "react";
 
-const useStopLoadingAndShowToast = () => {
-    const { handleToast } = useToast();
-    const stopLoadingAndShowToast = (setLoading:  React.Dispatch<React.SetStateAction<boolean>>, toastType: ToastTypeEnum, message?: string) => {
-        handleToast(toastType, message);
-        setLoading(false)
-    }
-    return { stopLoadingAndShowToast };
-}
+const useStopLoadingAndShowToast = (setLoading: (value: boolean) => void) => {
+  const { handleToast } = useToast();
+
+  return useCallback((toastType: ToastTypeEnum, message?: string) => {
+    handleToast(toastType, message);
+    setLoading(false);
+  }, []);
+};
 
 export default useStopLoadingAndShowToast;

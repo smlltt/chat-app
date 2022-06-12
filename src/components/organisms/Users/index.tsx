@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { ApiFirebase } from "api";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth } from "config/firebase";
 import UsersComponent from "./Users.component";
 import { DocumentData } from "firebase/firestore";
@@ -15,7 +15,7 @@ const Users: FC<UsersProps> = ({ selectUser }) => {
     ? ApiFirebase.createQuery("users", "uid", "!=", uid)
     : undefined;
 
-  const [users, loading, error] = useCollection(usersQuery);
+  const [users, loading, error] = useCollectionData(usersQuery);
 
   return (
     <UsersComponent

@@ -11,7 +11,7 @@ interface UserInterface {
 
 const User: FC<UserInterface> = ({ user, handleUserClick }) => {
   return (
-    <StyledCard key={user.id} onClick={() => handleUserClick(user)}>
+    <StyledCard onClick={() => handleUserClick(user)}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
           avatar={<Avatar src={user.avatar}>{getInitials(user.name)}</Avatar>}

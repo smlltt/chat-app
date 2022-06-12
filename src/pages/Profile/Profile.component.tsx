@@ -48,7 +48,7 @@ const ProfileComponent: FC<ProfileComponentProps> = ({
             </StyledAvatar>
             <UploadIconWrapper className={"addImageIcon"} loading={loading}>
               {loading ? (
-                <StyledCircularProgress loading={loading} />
+                <StyledCircularProgress loading />
               ) : (
                 <label htmlFor="icon-button-file">
                   <Input

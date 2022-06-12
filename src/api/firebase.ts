@@ -7,8 +7,9 @@ import {
   where,
   WhereFilterOp,
   FieldPath,
+  getFirestore,
 } from "firebase/firestore";
-import { auth, db, storage } from "config/firebase";
+import { app, auth, db, storage } from "config/firebase";
 import {
   signOut,
   createUserWithEmailAndPassword,
@@ -58,6 +59,8 @@ const ApiFirebase = {
   updateDocument: (collection: string, docId: string, data: {}) => {
     updateDoc(doc(db, collection, docId), data);
   },
+  userRef: (uid: string | undefined) =>
+    doc(getFirestore(app), "users", uid || ""),
 };
 
 export default ApiFirebase;

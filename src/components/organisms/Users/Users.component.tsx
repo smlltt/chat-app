@@ -1,17 +1,13 @@
 import React, { FC } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { ErrorPlaceholder, User } from "components/molecules";
-import {
-  FirestoreError,
-  QuerySnapshot,
-  DocumentData,
-} from "firebase/firestore";
+import { FirestoreError, DocumentData } from "firebase/firestore";
 import { ChatsWrapper } from "components/layouts";
 
 interface UsersProps {
   loading: boolean;
   error: FirestoreError | undefined;
-  users: QuerySnapshot<DocumentData> | undefined;
+  users: DocumentData[] | undefined;
   handleUserClick: (user: DocumentData) => void;
 }
 
@@ -34,8 +30,8 @@ const UsersComponent: FC<UsersProps> = ({
           {error && <ErrorPlaceholder />}
         </Box>
       )}
-      {users?.docs.map((doc) => (
-        <User user={doc.data()} handleUserClick={handleUserClick} />
+      {users?.map((user) => (
+        <User user={user} handleUserClick={handleUserClick} key={user.uid} />
       ))}
     </ChatsWrapper>
   );
