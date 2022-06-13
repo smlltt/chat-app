@@ -2,11 +2,11 @@ import React, { FC } from "react";
 import { Card, CardHeader, Avatar, Box, Stack, Divider } from "@mui/material";
 import { getInitials } from "utils";
 import { styled } from "@mui/material/styles";
-import { DocumentData } from "firebase/firestore";
+import { UserType } from "api/types";
 
 interface UserInterface {
-  user: DocumentData;
-  handleUserClick: (user: DocumentData) => void;
+  user: UserType;
+  handleUserClick: (user: UserType) => void;
   display: "none" | "block";
 }
 

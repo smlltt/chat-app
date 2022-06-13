@@ -5,6 +5,7 @@ import { auth } from "config/firebase";
 import UsersComponent from "./Users.component";
 import { DocumentData } from "firebase/firestore";
 import { ShowUsers } from "pages/Home/types";
+import { UserType } from "api/types";
 
 interface UsersProps {
   selectUser: (user: DocumentData) => void;
@@ -18,11 +19,8 @@ const Users: FC<UsersProps> = ({
   showUsers,
 }) => {
   const uid = auth.currentUser?.uid;
-  const usersQuery = uid
-    ? ApiFirebase.createQuery("users", "uid", "!=", uid)
-    : undefined;
-
-  const [users, loading, error] = useCollectionData(usersQuery);
+  const usersQuery = uid ? ApiFirebase.availableUsersQuery(uid) : undefined;
+  const [users, loading, error] = useCollectionData<UserType>(usersQuery);
 
   return (
     <UsersComponent
