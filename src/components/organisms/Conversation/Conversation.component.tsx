@@ -1,18 +1,20 @@
 import React, { FC } from "react";
 import { ChatsWrapper } from "components/layouts";
-import { DocumentData } from "firebase/firestore";
 import { MessageForm } from "components/organisms";
 import ConversationHeader from "./ConversationHeader";
 import { ShowUsers } from "pages/Home/types";
+import { UserType } from "api/types";
 
 interface ConversationComponentProps {
-  chat: DocumentData | undefined;
+  recipient: UserType | undefined;
   showUsers: ShowUsers;
+  senderId?: string;
 }
 
 const ConversationComponent: FC<ConversationComponentProps> = ({
-  chat,
+  recipient,
   showUsers,
+  senderId,
 }) => {
   return (
     <ChatsWrapper
@@ -20,12 +22,12 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
       sm={8}
       sx={{ borderLeft: "1px solid lightGrey" }}
     >
-      {chat ? (
+      {recipient ? (
         <>
-          <ConversationHeader content={chat.name} />
+          <ConversationHeader content={recipient.name} />
           {/*TODO compoenent to be added*/}
           <div style={{ display: "flex", flexGrow: 1 }}>messages</div>
-          <MessageForm />
+          <MessageForm recipientId={recipient.uid} senderId={senderId} />
         </>
       ) : (
         <ConversationHeader content={"Select a user to start a conversation"} />

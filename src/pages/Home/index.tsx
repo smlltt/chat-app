@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import { Users, Conversation } from "components/organisms";
-import { DocumentData } from "firebase/firestore";
 import { ShowUsers } from "./types";
+import { auth } from "config/firebase";
+import { UserType } from "api/types";
 
 const Home = () => {
-  const [chat, setChat] = useState<DocumentData | undefined>(undefined);
+  const loggedUserId = auth.currentUser?.uid;
+  const [recipient, setRecipient] = useState<UserType | undefined>(undefined);
   const [showUsers, setShowUsers] = useState<ShowUsers>({
     usersWrapperSpace: 2,
     usersDisplay: "none",
@@ -29,11 +31,16 @@ const Home = () => {
   return (
     <Grid container>
       <Users
-        selectUser={(user: DocumentData) => setChat(user)}
+        loggedUserId={loggedUserId}
+        selectUser={(user: UserType) => setRecipient(user)}
         handleHamurgerClick={toggleShowUsers}
         showUsers={showUsers}
       />
-      <Conversation chat={chat} showUsers={showUsers} />
+      <Conversation
+        recipient={recipient}
+        showUsers={showUsers}
+        senderId={loggedUserId}
+      />
     </Grid>
   );
 };
