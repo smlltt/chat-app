@@ -13,9 +13,8 @@ interface UsersProps {
 const Users: FC<UsersProps> = ({ selectUser }) => {
   const uid = auth.currentUser?.uid;
   const usersQuery = uid ? ApiFirebase.availableUsersQuery(uid) : undefined;
-
   const [users, loading, error] = useCollectionData<UserType>(usersQuery);
-  console.log("users", users);
+
   return (
     <UsersComponent
       loading={loading}
