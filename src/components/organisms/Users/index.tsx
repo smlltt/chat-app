@@ -1,18 +1,26 @@
 import React, { FC } from "react";
 import { ApiFirebase } from "api";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { auth } from "config/firebase";
 import UsersComponent from "./Users.component";
-import { DocumentData } from "firebase/firestore";
+import { ShowUsers } from "pages/Home/types";
 import { UserType } from "api/types";
 
 interface UsersProps {
-  selectUser: (user: DocumentData) => void;
+  selectUser: (user: UserType) => void;
+  handleHamurgerClick: () => void;
+  showUsers: ShowUsers;
+  loggedUserId?: string;
 }
 
-const Users: FC<UsersProps> = ({ selectUser }) => {
-  const uid = auth.currentUser?.uid;
-  const usersQuery = uid ? ApiFirebase.availableUsersQuery(uid) : undefined;
+const Users: FC<UsersProps> = ({
+  selectUser,
+  handleHamurgerClick,
+  showUsers,
+  loggedUserId,
+}) => {
+  const usersQuery = loggedUserId
+    ? ApiFirebase.availableUsersQuery(loggedUserId)
+    : undefined;
   const [users, loading, error] = useCollectionData<UserType>(usersQuery);
 
   return (
@@ -21,6 +29,8 @@ const Users: FC<UsersProps> = ({ selectUser }) => {
       error={error}
       users={users}
       handleUserClick={selectUser}
+      handleHamurgerClick={handleHamurgerClick}
+      showUsers={showUsers}
     />
   );
 };

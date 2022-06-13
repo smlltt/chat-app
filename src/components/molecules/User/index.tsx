@@ -7,11 +7,15 @@ import { UserType } from "api/types";
 interface UserInterface {
   user: UserType;
   handleUserClick: (user: UserType) => void;
+  display: "none" | "block";
 }
 
-const User: FC<UserInterface> = ({ user, handleUserClick }) => {
+const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
   return (
-    <StyledCard onClick={() => handleUserClick(user)}>
+    <StyledCard
+      onClick={() => handleUserClick(user)}
+      sx={{ display: { xs: display, sm: "block" } }}
+    >
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
           avatar={<Avatar src={user.avatar}>{getInitials(user.name)}</Avatar>}

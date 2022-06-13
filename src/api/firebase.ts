@@ -1,5 +1,14 @@
-import {collection, doc, getFirestore, query, setDoc, updateDoc, where,} from "firebase/firestore";
-import {app, auth, db, storage} from "config/firebase";
+import {
+  collection,
+  doc,
+  getFirestore,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+  addDoc,
+} from "firebase/firestore";
+import { app, auth, db, storage } from "config/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -7,9 +16,15 @@ import {
   signOut,
   User,
 } from "firebase/auth";
-import {deleteObject, getDownloadURL, ref, StorageReference, uploadBytes,} from "firebase/storage";
-import {UserType} from "./types";
-import {CollectionReference} from "@firebase/firestore";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  StorageReference,
+  uploadBytes,
+} from "firebase/storage";
+import { UserType } from "./types";
+import { CollectionReference } from "@firebase/firestore";
 
 const ApiFirebase = {
   createRef: (path: string) => ref(storage, path),
@@ -37,10 +52,14 @@ const ApiFirebase = {
   },
   userRef: (uid: string | undefined) =>
     doc(getFirestore(app), "users", uid || ""),
-  availableUsersQuery: (currentUserUid: string) => query<UserType>(
+  availableUsersQuery: (currentUserUid: string) =>
+    query<UserType>(
       collection(db, "users") as CollectionReference<UserType>,
       where("uid", "!=", currentUserUid)
-  )
+    ),
+  addMessage: (conversationId: string, data: {}) => {
+    addDoc(collection(db, "messages", conversationId, "chats"), data);
+  },
 };
 
 export default ApiFirebase;

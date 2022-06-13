@@ -1,19 +1,37 @@
 import React, { FC } from "react";
 import { ChatsWrapper } from "components/layouts";
-import { DocumentData } from "firebase/firestore";
-import { Divider, Stack } from "@mui/material";
+import { MessageForm } from "components/organisms";
+import ConversationHeader from "./ConversationHeader";
+import { ShowUsers } from "pages/Home/types";
+import { UserType } from "api/types";
 
 interface ConversationComponentProps {
-  chat: DocumentData | undefined;
+  recipient: UserType | undefined;
+  showUsers: ShowUsers;
+  senderId?: string;
 }
 
-const ConversationComponent: FC<ConversationComponentProps> = ({ chat }) => {
+const ConversationComponent: FC<ConversationComponentProps> = ({
+  recipient,
+  showUsers,
+  senderId,
+}) => {
   return (
-    <ChatsWrapper xs={7} sm={8} sx={{ borderLeft: "1px solid lightGrey" }}>
-      <Stack justifyContent={"center"} direction={"row"} py={"27px"}>
-        {chat ? chat.name : "Select a user to start a conversation"}
-      </Stack>
-      <Divider />
+    <ChatsWrapper
+      xs={showUsers.conversationWrapperSpace}
+      sm={8}
+      sx={{ borderLeft: "1px solid lightGrey" }}
+    >
+      {recipient ? (
+        <>
+          <ConversationHeader content={recipient.name} />
+          {/*TODO compoenent to be added*/}
+          <div style={{ display: "flex", flexGrow: 1 }}>messages</div>
+          <MessageForm recipientId={recipient.uid} senderId={senderId} />
+        </>
+      ) : (
+        <ConversationHeader content={"Select a user to start a conversation"} />
+      )}
     </ChatsWrapper>
   );
 };
