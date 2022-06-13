@@ -1,14 +1,15 @@
 import React, { FC } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { ErrorPlaceholder, User } from "components/molecules";
-import { FirestoreError, DocumentData } from "firebase/firestore";
+import { FirestoreError } from "firebase/firestore";
 import { ChatsWrapper } from "components/layouts";
+import { UserType } from "api/types";
 
 interface UsersProps {
   loading: boolean;
   error: FirestoreError | undefined;
-  users: DocumentData[] | undefined;
-  handleUserClick: (user: DocumentData) => void;
+  users: UserType[] | undefined;
+  handleUserClick: (user: UserType) => void;
 }
 
 const UsersComponent: FC<UsersProps> = ({

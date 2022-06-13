@@ -4,6 +4,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth } from "config/firebase";
 import UsersComponent from "./Users.component";
 import { DocumentData } from "firebase/firestore";
+import { UserType } from "api/types";
 
 interface UsersProps {
   selectUser: (user: DocumentData) => void;
@@ -11,11 +12,8 @@ interface UsersProps {
 
 const Users: FC<UsersProps> = ({ selectUser }) => {
   const uid = auth.currentUser?.uid;
-  const usersQuery = uid
-    ? ApiFirebase.createQuery("users", "uid", "!=", uid)
-    : undefined;
-
-  const [users, loading, error] = useCollectionData(usersQuery);
+  const usersQuery = uid ? ApiFirebase.availableUsersQuery(uid) : undefined;
+  const [users, loading, error] = useCollectionData<UserType>(usersQuery);
 
   return (
     <UsersComponent
