@@ -1,29 +1,15 @@
+import {collection, doc, getFirestore, query, setDoc, updateDoc, where,} from "firebase/firestore";
+import {app, auth, db, storage} from "config/firebase";
 import {
-  doc,
-  updateDoc,
-  setDoc,
-  collection,
-  query,
-  where,
-  WhereFilterOp,
-  FieldPath,
-  getFirestore,
-} from "firebase/firestore";
-import { app, auth, db, storage } from "config/firebase";
-import {
-  signOut,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  User,
   signInWithEmailAndPassword,
+  signOut,
+  User,
 } from "firebase/auth";
-import {
-  ref,
-  StorageReference,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import {deleteObject, getDownloadURL, ref, StorageReference, uploadBytes,} from "firebase/storage";
+import {UserType} from "./types";
+import {CollectionReference} from "@firebase/firestore";
 
 const ApiFirebase = {
   createRef: (path: string) => ref(storage, path),
@@ -32,16 +18,6 @@ const ApiFirebase = {
   createDocument: (collection: string, docId: string, data: {}) => {
     setDoc(doc(db, collection, docId), data);
   },
-  createQuery: (
-    selectedCollection: string,
-    fieldPath: string | FieldPath,
-    logicOperator: WhereFilterOp,
-    value: string | boolean
-  ) =>
-    query(
-      collection(db, selectedCollection),
-      where(fieldPath, logicOperator, value)
-    ),
   deleteFile: (path: string) => deleteObject(ref(storage, path)),
   detectLogin: (setUser: (user: User | null) => void) => {
     onAuthStateChanged(auth, (user) => setUser(user));
@@ -61,6 +37,10 @@ const ApiFirebase = {
   },
   userRef: (uid: string | undefined) =>
     doc(getFirestore(app), "users", uid || ""),
+  availableUsersQuery: (currentUserUid: string) => query<UserType>(
+      collection(db, "users") as CollectionReference<UserType>,
+      where("uid", "!=", currentUserUid)
+  )
 };
 
 export default ApiFirebase;
