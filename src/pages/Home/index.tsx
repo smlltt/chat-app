@@ -4,6 +4,7 @@ import { Users, Conversation } from "components/organisms";
 import { ShowUsers } from "./types";
 import { auth } from "config/firebase";
 import { UserType } from "api/types";
+import { getConversationId } from "utils";
 
 const Home = () => {
   const loggedUserId = auth.currentUser?.uid;
@@ -13,6 +14,7 @@ const Home = () => {
     usersDisplay: "none",
     conversationWrapperSpace: 10,
   });
+  const [conversationId, setConversationId] = useState("");
 
   const toggleShowUsers = () => {
     showUsers.usersWrapperSpace === 5
@@ -28,11 +30,17 @@ const Home = () => {
         });
   };
 
+  const handleSelectUser = (user: UserType) => {
+    if (!loggedUserId) return;
+    setRecipient(user);
+    setConversationId(getConversationId(loggedUserId, user.uid));
+  };
+
   return (
     <Grid container>
       <Users
         loggedUserId={loggedUserId}
-        selectUser={(user: UserType) => setRecipient(user)}
+        selectUser={handleSelectUser}
         handleHamurgerClick={toggleShowUsers}
         showUsers={showUsers}
       />
@@ -40,6 +48,7 @@ const Home = () => {
         recipient={recipient}
         showUsers={showUsers}
         senderId={loggedUserId}
+        conversationId={conversationId}
       />
     </Grid>
   );

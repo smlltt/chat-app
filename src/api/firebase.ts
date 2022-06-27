@@ -7,6 +7,7 @@ import {
   updateDoc,
   where,
   addDoc,
+  orderBy,
 } from "firebase/firestore";
 import { app, auth, db, storage } from "config/firebase";
 import {
@@ -23,7 +24,7 @@ import {
   StorageReference,
   uploadBytes,
 } from "firebase/storage";
-import { UserType } from "./types";
+import { ChatType, UserType } from "./types";
 import { CollectionReference } from "@firebase/firestore";
 
 const ApiFirebase = {
@@ -60,6 +61,16 @@ const ApiFirebase = {
   addMessage: (conversationId: string, data: {}) => {
     addDoc(collection(db, "messages", conversationId, "chats"), data);
   },
+  chatsRef: (conversationId: string) =>
+    query<ChatType>(
+      collection(
+        db,
+        "messages",
+        conversationId,
+        "chats"
+      ) as CollectionReference<ChatType>,
+      orderBy("createdAt", "asc")
+    ),
 };
 
 export default ApiFirebase;

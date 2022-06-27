@@ -1,8 +1,9 @@
 import React, { FC } from "react";
 import MessageFormComponent from "./MessageForm.component";
 import { MessageFormValuesProps } from "./types";
-import { ApiFirebase } from "../../../api";
+import { ApiFirebase } from "api";
 import { Timestamp } from "firebase/firestore";
+import { getConversationId } from "utils";
 
 interface MessageFormProps {
   senderId?: string;
@@ -21,10 +22,7 @@ const MessageForm: FC<MessageFormProps> = ({ senderId, recipientId }) => {
   const handleSubmit = async (values: MessageFormValuesProps) => {
     const fileUrl = values.file && (await uploadFile(values.file));
     if (!senderId || !recipientId) return;
-    const conversationId =
-      senderId > recipientId
-        ? `${senderId + recipientId}`
-        : `${recipientId + senderId}`;
+    const conversationId = getConversationId(senderId, recipientId);
     await ApiFirebase.addMessage(conversationId, {
       createdAt: Timestamp.fromDate(new Date()),
       from: senderId,

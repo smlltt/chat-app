@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import { Box, CircularProgress } from "@mui/material";
-import { ErrorPlaceholder, User } from "components/molecules";
+import { User } from "components/molecules";
 import { FirestoreError } from "firebase/firestore";
 import { ChatsWrapper } from "components/layouts";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ShowUsers } from "pages/Home/types";
 import { UserType } from "api/types";
+import { LoadingAndError } from "components/organisms";
 
 interface UsersProps {
   loading: boolean;
@@ -35,15 +35,7 @@ const UsersComponent: FC<UsersProps> = ({
         <MenuIcon />
       </IconButton>
       {(loading || error) && (
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          alignContent={"center"}
-          mt={20}
-        >
-          {loading && <CircularProgress />}
-          {error && <ErrorPlaceholder />}
-        </Box>
+        <LoadingAndError loading={loading} error={error} />
       )}
       {users?.map((user) => (
         <User
