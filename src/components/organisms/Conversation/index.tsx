@@ -30,6 +30,7 @@ const Conversation: FC<ConversationProps> = ({
       senderId={senderId}
       loading={loading}
       error={error}
+      conversation={conversation}
     />
   );
 };

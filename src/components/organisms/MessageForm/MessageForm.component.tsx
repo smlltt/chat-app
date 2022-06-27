@@ -28,7 +28,7 @@ const MessageFormComponent: FC<MessageFormComponentProps> = ({
       <Stack direction={"row"}>
         <StyledLabel htmlFor="icon-button-file">
           <HiddenInput
-            accept="image/*,,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf"
+            accept="image/*"
             id="icon-button-file"
             type="file"
             name={"file"}
