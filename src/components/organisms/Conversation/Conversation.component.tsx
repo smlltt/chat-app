@@ -6,6 +6,7 @@ import { ShowUsers } from "pages/Home/types";
 import { ChatType, UserType } from "api/types";
 import { FirestoreError } from "firebase/firestore";
 import { Message } from "components/molecules";
+import { Box } from "@mui/material";
 
 interface ConversationComponentProps {
   recipient: UserType | undefined;
@@ -36,10 +37,19 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
           {(loading || error) && (
             <LoadingAndError loading={loading} error={error} />
           )}
-          {conversation &&
-            conversation.map((message, index) => (
-              <Message key={index} message={message} />
-            ))}
+          <Box sx={{ height: "80%", overflowY: "auto" }}>
+            {conversation &&
+              conversation.map((message, index, list) => (
+                <Message
+                  key={index}
+                  message={message}
+                  showUserName={
+                    index > 0 ? message.from !== list[index - 1].from : true
+                  }
+                  index={index}
+                />
+              ))}
+          </Box>
           <MessageForm recipientId={recipient.uid} senderId={senderId} />
         </>
       ) : (
