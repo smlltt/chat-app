@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { ChatsWrapper } from "components/layouts";
 import { LoadingAndError, MessageForm } from "components/organisms";
 import ConversationHeader from "./ConversationHeader";
@@ -6,7 +6,7 @@ import { ShowUsers } from "pages/Home/types";
 import { ChatType, UserType } from "api/types";
 import { FirestoreError } from "firebase/firestore";
 import { Message } from "components/molecules";
-import { Box } from "@mui/material";
+import { Virtuoso } from "react-virtuoso";
 
 interface ConversationComponentProps {
   recipient: UserType | undefined;
@@ -25,6 +25,39 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
   loading,
   conversation,
 }) => {
+  const conversationLength = conversation?.length || 0;
+  const [chat, setChat] = useState(conversation?.slice(-20));
+  const [firstItemIndex, setFirstItemIndex] = useState(
+    conversationLength - 20 > 0 ? conversationLength - 20 : 0
+  );
+  const ref = useRef<any>(null);
+
+  useEffect(() => {
+    if (conversation) {
+      setChat(conversation.slice(-20));
+      setFirstItemIndex(
+        conversationLength - 20 > 0 ? conversationLength - 20 : 0
+      );
+    }
+    if (ref.current) {
+      ref.current.scrollToIndex({
+        index: conversationLength - 1,
+        behaviour: "smooth",
+      });
+    }
+  }, [conversation, ref]);
+
+  const prependItems = useCallback(() => {
+    chat && setChat(conversation?.slice(-chat.length - 20));
+    const messagesToPrepend = 20;
+    const nextFirstItemIndex =
+      firstItemIndex - messagesToPrepend > 0
+        ? firstItemIndex - messagesToPrepend
+        : 0;
+    setFirstItemIndex(nextFirstItemIndex);
+    return false;
+  }, [conversation, chat, firstItemIndex, setChat]);
+
   return (
     <ChatsWrapper
       xs={showUsers.conversationWrapperSpace}
@@ -37,19 +70,46 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
           {(loading || error) && (
             <LoadingAndError loading={loading} error={error} />
           )}
-          <Box sx={{ height: "80%", overflowY: "auto" }}>
-            {conversation &&
-              conversation.map((message, index, list) => (
-                <Message
-                  key={index}
-                  message={message}
-                  showUserName={
-                    index > 0 ? message.from !== list[index - 1].from : true
-                  }
-                  index={index}
-                />
-              ))}
-          </Box>
+          {chat && (
+            <Virtuoso
+              overscan={20}
+              ref={ref}
+              style={{ height: "80%" }}
+              firstItemIndex={firstItemIndex}
+              initialTopMostItemIndex={conversationLength - 1}
+              data={chat}
+              startReached={prependItems}
+              itemContent={(index, message) => {
+                return (
+                  <Message
+                    message={message}
+                    // showUserName
+                    // showUserName={
+                    //   chat && index > 0
+                    //     ? message.from !== chat[index - 1]?.from
+                    //     : true
+                    // }
+                  />
+                );
+              }}
+            />
+          )}
+
+          {/*/!*TODO maybe it's best to just add a ref a scroll to the bottom of the box*!/*/}
+          {/*<Box sx={{ height: "80%", overflowY: "auto" }}>*/}
+          {/*  {conversation &&*/}
+          {/*    conversation.map((message, index, list) => (*/}
+          {/*      <Message*/}
+          {/*        key={index}*/}
+          {/*        message={message}*/}
+          {/*        showUserName={*/}
+          {/*          index > 0 ? message.from !== list[index - 1].from : true*/}
+          {/*        }*/}
+          {/*        index={index}*/}
+          {/*      />*/}
+          {/*    ))}*/}
+          {/*</Box>*/}
+
           <MessageForm recipientId={recipient.uid} senderId={senderId} />
         </>
       ) : (

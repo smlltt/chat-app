@@ -25,7 +25,10 @@ const MessageFormComponent: FC<MessageFormComponentProps> = ({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Stack direction={"row"}>
+      <Stack
+        direction={"row"}
+        sx={{ position: "absolute", bottom: 0, width: "66%" }}
+      >
         <StyledLabel htmlFor="icon-button-file">
           <HiddenInput
             accept="image/*"

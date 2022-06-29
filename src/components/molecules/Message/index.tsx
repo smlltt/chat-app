@@ -4,24 +4,24 @@ import { Box, Card, CardMedia } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ApiFirebase } from "api";
+import { auth } from "config/firebase";
 
 interface MessageProps {
   message: ChatType;
-  showUserName: boolean;
-  index: number;
 }
 
-const Message: FC<MessageProps> = ({ message, showUserName, index }) => {
+const Message: FC<MessageProps> = ({ message }) => {
   const [user] = useDocumentData(ApiFirebase.userRef(message.from), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+  const loggedUserId = auth.currentUser?.uid;
+  const isMessageFromLoggedInUser = user?.uid === loggedUserId;
 
   return (
-    <MessageWrapper showUserName={!!index && showUserName}>
-      {user && showUserName && (
-        <Box sx={{ fontWeight: "medium" }}>{user.name}</Box>
-      )}
-      <Box>{message.text && message.text}</Box>
+    <MainWrapper>
+      <MessageWrapper isMessageFromLoggedInUser={isMessageFromLoggedInUser}>
+        {message.text && message.text}
+      </MessageWrapper>
       {message.file && (
         <Card>
           <CardMedia
@@ -29,21 +29,30 @@ const Message: FC<MessageProps> = ({ message, showUserName, index }) => {
             alt="picture"
             image={message.file}
             onClick={() => window.open(message.file)}
-            sx={{ marginTop: 2, maxHeight: 500 }}
+            sx={{ maxHeight: 500 }}
           />
         </Card>
       )}
-    </MessageWrapper>
+    </MainWrapper>
   );
 };
 
 export default Message;
 
+const MainWrapper = styled(Box)({
+  paddingTop: 6,
+  cursor: "pointer",
+  display: "flex",
+  flexDirection: "column",
+  paddingRight: 12,
+  paddingLeft: 12,
+});
+
 const MessageWrapper = styled(Box)(
-  ({ showUserName }: { showUserName: boolean }) => ({
-    marginTop: showUserName ? 30 : 6,
-    cursor: "pointer",
-    display: "flex",
-    flexDirection: "column",
+  ({ isMessageFromLoggedInUser }: { isMessageFromLoggedInUser: boolean }) => ({
+    backgroundColor: isMessageFromLoggedInUser ? "pink" : "blue",
+    width: "max-content",
+    maxWidth: "90%",
+    alignSelf: isMessageFromLoggedInUser ? "flex-end" : "flex-start",
   })
 );
