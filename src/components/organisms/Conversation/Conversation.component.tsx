@@ -31,6 +31,7 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
     conversationLength - 20 > 0 ? conversationLength - 20 : 0
   );
   const ref = useRef<any>(null);
+  console.log("chat", chat);
 
   useEffect(() => {
     if (conversation) {
@@ -80,36 +81,10 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
               data={chat}
               startReached={prependItems}
               itemContent={(index, message) => {
-                return (
-                  <Message
-                    message={message}
-                    // showUserName
-                    // showUserName={
-                    //   chat && index > 0
-                    //     ? message.from !== chat[index - 1]?.from
-                    //     : true
-                    // }
-                  />
-                );
+                return <Message message={message} />;
               }}
             />
           )}
-
-          {/*/!*TODO maybe it's best to just add a ref a scroll to the bottom of the box*!/*/}
-          {/*<Box sx={{ height: "80%", overflowY: "auto" }}>*/}
-          {/*  {conversation &&*/}
-          {/*    conversation.map((message, index, list) => (*/}
-          {/*      <Message*/}
-          {/*        key={index}*/}
-          {/*        message={message}*/}
-          {/*        showUserName={*/}
-          {/*          index > 0 ? message.from !== list[index - 1].from : true*/}
-          {/*        }*/}
-          {/*        index={index}*/}
-          {/*      />*/}
-          {/*    ))}*/}
-          {/*</Box>*/}
-
           <MessageForm recipientId={recipient.uid} senderId={senderId} />
         </>
       ) : (
