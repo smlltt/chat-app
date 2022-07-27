@@ -4,13 +4,19 @@ import { MessageFormValuesProps } from "./types";
 import { ApiFirebase } from "api";
 import { Timestamp } from "firebase/firestore";
 import { getConversationId } from "utils";
+import { ShowUsers } from "pages/Home/types";
 
 interface MessageFormProps {
   senderId?: string;
   recipientId?: string;
+  showUsers: ShowUsers;
 }
 
-const MessageForm: FC<MessageFormProps> = ({ senderId, recipientId }) => {
+const MessageForm: FC<MessageFormProps> = ({
+  senderId,
+  recipientId,
+  showUsers,
+}) => {
   const uploadFile = async (file: File) => {
     const imgRef = ApiFirebase.createRef(
       `files/${new Date().getTime()} - ${file.name}`
@@ -32,7 +38,9 @@ const MessageForm: FC<MessageFormProps> = ({ senderId, recipientId }) => {
     });
   };
 
-  return <MessageFormComponent handleSubmit={handleSubmit} />;
+  return (
+    <MessageFormComponent handleSubmit={handleSubmit} showUsers={showUsers} />
+  );
 };
 
 export default MessageForm;

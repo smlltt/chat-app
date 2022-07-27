@@ -5,13 +5,16 @@ import { FileUpload } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
 import { MessageFormValuesProps } from "./types";
+import { ShowUsers } from "pages/Home/types";
 
 interface MessageFormComponentProps {
   handleSubmit: (values: MessageFormValuesProps) => Promise<void>;
+  showUsers: ShowUsers;
 }
 
 const MessageFormComponent: FC<MessageFormComponentProps> = ({
   handleSubmit,
+  showUsers,
 }) => {
   const formik = useFormik({
     initialValues: {
@@ -27,7 +30,14 @@ const MessageFormComponent: FC<MessageFormComponentProps> = ({
     <form onSubmit={formik.handleSubmit}>
       <Stack
         direction={"row"}
-        sx={{ position: "absolute", bottom: 0, width: "66%" }}
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          width: {
+            xs: showUsers.usersDisplay === "block" ? "58%" : "80%",
+            sm: "66%",
+          },
+        }}
       >
         <StyledLabel htmlFor="icon-button-file">
           <HiddenInput
@@ -52,7 +62,7 @@ const MessageFormComponent: FC<MessageFormComponentProps> = ({
         </StyledLabel>
         <Stack flexGrow={1}>
           <TextField
-            label={"Enter message"}
+            label={showUsers.usersDisplay === "block" ? "" : "Hey :)"}
             id="text"
             name="text"
             value={formik.values.text}

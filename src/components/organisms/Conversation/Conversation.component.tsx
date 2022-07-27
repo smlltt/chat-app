@@ -75,7 +75,7 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
             <Virtuoso
               overscan={20}
               ref={ref}
-              style={{ height: "80%" }}
+              style={{ height: "78%" }}
               firstItemIndex={firstItemIndex}
               initialTopMostItemIndex={conversationLength - 1}
               data={chat}
@@ -85,7 +85,11 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
               }}
             />
           )}
-          <MessageForm recipientId={recipient.uid} senderId={senderId} />
+          <MessageForm
+            recipientId={recipient.uid}
+            senderId={senderId}
+            showUsers={showUsers}
+          />
         </>
       ) : (
         <ConversationHeader content={"Select a user to start a conversation"} />
