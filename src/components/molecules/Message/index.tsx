@@ -4,19 +4,21 @@ import { Box, Card, CardMedia } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ApiFirebase } from "api";
-import { auth } from "config/firebase";
 import theme from "theme";
 import { format, isToday } from "date-fns";
+import { useAuth } from "hooks";
 
 interface MessageProps {
   message: ChatType;
 }
 
 const Message: FC<MessageProps> = ({ message }) => {
+  const userAuth = useAuth();
+
   const [user] = useDocumentData(ApiFirebase.userRef(message.from), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
-  const loggedUserId = auth.currentUser?.uid;
+  const loggedUserId = userAuth.user?.uid;
   const isMessageFromLoggedInUser = user?.uid === loggedUserId;
   const date = message.createdAt.toDate();
   const [toggleDate, setToggleDate] = useState(false);

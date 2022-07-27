@@ -1,14 +1,14 @@
 import React, { ChangeEvent, useState } from "react";
 import ProfileComponent from "./Profile.component";
 import { ApiFirebase } from "api";
-import { auth } from "config/firebase";
-import { useStopLoadingAndShowToast } from "hooks";
+import { useAuth, useStopLoadingAndShowToast } from "hooks";
 import { ToastTypeEnum } from "components/molecules/Toast/models";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { BasicDialog } from "components/molecules";
 
 const Profile = () => {
-  const uid = auth.currentUser?.uid;
+  const { user } = useAuth();
+  const uid = user?.uid;
   const [value] = useDocumentData(ApiFirebase.userRef(uid), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });

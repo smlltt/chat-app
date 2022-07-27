@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import { Users, Conversation } from "components/organisms";
 import { ShowUsers } from "./types";
-import { auth } from "config/firebase";
 import { UserType } from "api/types";
 import { getConversationId } from "utils";
+import { useAuth } from "hooks";
 
 const Home = () => {
-  const loggedUserId = auth.currentUser?.uid;
+  const { user } = useAuth();
+  const loggedUserId = user?.uid;
   const [recipient, setRecipient] = useState<UserType | undefined>(undefined);
   const [showUsers, setShowUsers] = useState<ShowUsers>({
     usersWrapperSpace: 2,
