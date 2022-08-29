@@ -27,14 +27,19 @@ const MessageForm: FC<MessageFormProps> = ({
 
   const handleSubmit = async (values: MessageFormValuesProps) => {
     const fileUrl = values.file && (await uploadFile(values.file));
-    if (!senderId || !recipientId) return;
-    const conversationId = getConversationId(senderId, recipientId);
-    await ApiFirebase.addMessage(conversationId, {
+    const messageData = {
       createdAt: Timestamp.fromDate(new Date()),
       from: senderId,
       to: recipientId,
       text: values.text,
       file: fileUrl || "",
+    };
+    if (!senderId || !recipientId) return;
+    const conversationId = getConversationId(senderId, recipientId);
+    await ApiFirebase.addMessage(conversationId, messageData);
+    await ApiFirebase.createDocument("lastMessage", conversationId, {
+      undread: true,
+      ...messageData,
     });
   };
 

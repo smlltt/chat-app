@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { ChatType } from "api/types";
-import { Box, Card, CardMedia } from "@mui/material";
+import { Box, CardMedia } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ApiFirebase } from "api";
@@ -35,15 +35,18 @@ const Message: FC<MessageProps> = ({ message }) => {
         </MessageWrapper>
       )}
       {message.file && (
-        <Card>
-          <CardMedia
-            component="img"
-            alt="picture"
-            image={message.file}
-            onClick={() => window.open(message.file)}
-            sx={{ maxHeight: 500 }}
-          />
-        </Card>
+        <CardMedia
+          component="img"
+          alt="picture"
+          image={message.file}
+          onClick={() => window.open(message.file)}
+          sx={{
+            height: 100,
+            width: 100,
+            ml: isMessageFromLoggedInUser ? "auto" : undefined,
+            borderRadius: 1,
+          }}
+        />
       )}
       <Collapse in={toggleDate}>
         <DateWrapper isMessageFromLoggedInUser={isMessageFromLoggedInUser}>

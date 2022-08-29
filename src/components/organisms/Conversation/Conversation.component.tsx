@@ -28,23 +28,33 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
   const conversationLength = conversation?.length || 0;
   const [chat, setChat] = useState(conversation?.slice(-20));
   const [firstItemIndex, setFirstItemIndex] = useState(
-    conversationLength - 20 > 0 ? conversationLength - 20 : 0
+    conversationLength - 20 > 0
+      ? conversationLength - 20
+      : conversationLength - 1
   );
   const ref = useRef<any>(null);
-  console.log("chat", chat);
+
+  const scrollToEnd = () => {
+    if (ref.current && conversationLength - 1 >= 0) {
+      ref.current.scrollToIndex({
+        index: conversationLength - 1,
+        behaviour: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
     if (conversation) {
       setChat(conversation.slice(-20));
       setFirstItemIndex(
-        conversationLength - 20 > 0 ? conversationLength - 20 : 0
+        conversationLength - 20 > 0
+          ? conversationLength - 20
+          : conversationLength - 1
       );
-    }
-    if (ref.current) {
-      ref.current.scrollToIndex({
-        index: conversationLength - 1,
-        behaviour: "smooth",
-      });
+      const timer = setTimeout(() => {
+        scrollToEnd();
+      }, 50);
+      return () => clearTimeout(timer);
     }
   }, [conversation, ref]);
 
@@ -73,6 +83,7 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
           )}
           {chat && (
             <Virtuoso
+              followOutput={"smooth"}
               overscan={20}
               ref={ref}
               style={{ height: "78%" }}

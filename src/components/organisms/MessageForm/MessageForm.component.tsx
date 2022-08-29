@@ -21,8 +21,9 @@ const MessageFormComponent: FC<MessageFormComponentProps> = ({
       text: "",
       file: undefined,
     },
-    onSubmit: (values: MessageFormValuesProps) => {
+    onSubmit: (values: MessageFormValuesProps, { resetForm }) => {
       handleSubmit(values);
+      resetForm();
     },
   });
 
