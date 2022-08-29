@@ -27,10 +27,9 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
 }) => {
   const conversationLength = conversation?.length || 0;
   const [chat, setChat] = useState(conversation?.slice(-20));
+  const firstItem = conversationLength - 1 < 0 ? 100 : conversationLength - 1;
   const [firstItemIndex, setFirstItemIndex] = useState(
-    conversationLength - 20 > 0
-      ? conversationLength - 20
-      : conversationLength - 1
+    conversationLength - 20 > 0 ? conversationLength - 20 : firstItem
   );
   const ref = useRef<any>(null);
 
@@ -47,16 +46,14 @@ const ConversationComponent: FC<ConversationComponentProps> = ({
     if (conversation) {
       setChat(conversation.slice(-20));
       setFirstItemIndex(
-        conversationLength - 20 > 0
-          ? conversationLength - 20
-          : conversationLength - 1
+        conversationLength - 20 > 0 ? conversationLength - 20 : firstItem
       );
       const timer = setTimeout(() => {
         scrollToEnd();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [conversation, ref]);
+  }, [conversation, ref, conversationLength, firstItem]);
 
   const prependItems = useCallback(() => {
     chat && setChat(conversation?.slice(-chat.length - 20));

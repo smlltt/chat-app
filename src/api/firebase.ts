@@ -71,6 +71,8 @@ const ApiFirebase = {
       ) as CollectionReference<ChatType>,
       orderBy("createdAt", "asc")
     ),
+  lastMessageRef: (conversationId: string | undefined) =>
+    doc(getFirestore(app), "lastMessage", conversationId || ""),
 };
 
 export default ApiFirebase;

@@ -9,12 +9,7 @@ interface LoadingAndErrorProps {
 }
 
 const LoadingAndError: FC<LoadingAndErrorProps> = ({ loading, error }) => (
-  <Box
-    display={"flex"}
-    justifyContent={"center"}
-    alignContent={"center"}
-    mt={20}
-  >
+  <Box display={"flex"} justifyContent={"center"} alignContent={"center"}>
     {loading && <CircularProgress />}
     {error && <ErrorPlaceholder />}
   </Box>

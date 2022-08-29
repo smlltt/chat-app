@@ -22,7 +22,6 @@ const Conversation: FC<ConversationProps> = ({
     ? ApiFirebase.chatsRef(conversationId)
     : undefined;
   const [conversation, loading, error] = useCollectionData(conversationQuery);
-
   return (
     <ConversationComponent
       recipient={recipient}

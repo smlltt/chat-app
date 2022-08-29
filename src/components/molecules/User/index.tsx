@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import { Card, CardHeader, Avatar, Box, Stack, Divider } from "@mui/material";
-import { getInitials } from "utils";
+import { getConversationId, getInitials } from "utils";
 import { styled } from "@mui/material/styles";
 import { UserType } from "api/types";
+import { useAuth } from "hooks";
+import LastMessage from "./LastMessage";
 
 interface UserInterface {
   user: UserType;
@@ -11,6 +13,10 @@ interface UserInterface {
 }
 
 const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
+  const { user: loggedInUser } = useAuth();
+  if (!loggedInUser) return <></>;
+  const conversationId = getConversationId(loggedInUser.uid, user.uid);
+
   return (
     <StyledCard
       onClick={() => handleUserClick(user)}
@@ -19,8 +25,14 @@ const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
           avatar={<Avatar src={user.avatar}>{getInitials(user.name)}</Avatar>}
-          title={user.name}
+          title={
+            <Stack direction={"column"}>
+              <Box>{user.name}</Box>
+              <LastMessage conversationId={conversationId} />
+            </Stack>
+          }
         />
+
         <Box display={"flex"} alignItems={"center"} mr={2}>
           <IsOnlineDot isOnline={user.isOnline} />
         </Box>

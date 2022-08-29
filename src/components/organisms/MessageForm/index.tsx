@@ -38,7 +38,7 @@ const MessageForm: FC<MessageFormProps> = ({
     const conversationId = getConversationId(senderId, recipientId);
     await ApiFirebase.addMessage(conversationId, messageData);
     await ApiFirebase.createDocument("lastMessage", conversationId, {
-      undread: true,
+      unread: true,
       ...messageData,
     });
   };
