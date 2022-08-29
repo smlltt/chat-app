@@ -7,6 +7,7 @@ import { ApiFirebase } from "api";
 import theme from "theme";
 import { format, isToday } from "date-fns";
 import { useAuth } from "hooks";
+import Collapse from "@mui/material/Collapse";
 
 interface MessageProps {
   message: ChatType;
@@ -31,12 +32,6 @@ const Message: FC<MessageProps> = ({ message }) => {
           onClick={() => setToggleDate(!toggleDate)}
         >
           {message.text}
-          {/*  TODO add animation to show date (maybe date as a separate component to be show under/above the message */}
-          {toggleDate && (
-            <Box sx={{ fontSize: 12 }} justifyContent={"flex-end"}>
-              {format(date, isToday(date) ? "h:mm a" : "MMM dd, yyyy h:mm a")}
-            </Box>
-          )}
         </MessageWrapper>
       )}
       {message.file && (
@@ -50,6 +45,11 @@ const Message: FC<MessageProps> = ({ message }) => {
           />
         </Card>
       )}
+      <Collapse in={toggleDate}>
+        <DateWrapper isMessageFromLoggedInUser={isMessageFromLoggedInUser}>
+          {format(date, isToday(date) ? "h:mm a" : "MMM dd, yyyy h:mm a")}
+        </DateWrapper>
+      </Collapse>
     </MainWrapper>
   );
 };
@@ -78,5 +78,14 @@ const MessageWrapper = styled(Box)(
     color: isMessageFromLoggedInUser ? "black" : "white",
     display: "flex",
     flexDirection: "column",
+  })
+);
+
+const DateWrapper = styled(Box)(
+  ({ isMessageFromLoggedInUser }: { isMessageFromLoggedInUser: boolean }) => ({
+    justifyContent: isMessageFromLoggedInUser ? "flex-end" : "flex-start",
+    fontSize: 12,
+    paddingTop: 4,
+    display: "flex",
   })
 );
