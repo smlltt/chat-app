@@ -28,9 +28,9 @@ const LastMessage: FC<LastMessageInterface> = ({
   };
 
   useEffect(() => {
-    //I check that 1. the last message was not sent by me (if yes, no point in marking it as read), 2. there is a lastMessage,
-    // 3. some conversation was selected (recipient not undefined): I do not want to mark anything as read before I select a specific conversation
-    if (!messageSentFromLoggedInUser && lastMessage && recipient) {
+    //I check that 1. there is a lastMessage, 2. some conversation was selected (recipient not undefined):
+    // I do not want to mark anything as read before I select a specific conversation
+    if (lastMessage && recipient) {
       //If the last message was sent by the person I am in a conversation with (not by me), I mark it as read
       if (lastMessage.from === recipient.uid) {
         setLastMessageToRead();
