@@ -14,8 +14,8 @@ interface UserInterface {
 
 const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
   const { user: loggedInUser } = useAuth();
-  if (!loggedInUser) return <></>;
-  const conversationId = getConversationId(loggedInUser.uid, user.uid);
+  const conversationId =
+    loggedInUser && getConversationId(loggedInUser.uid, user.uid);
 
   return (
     <StyledCard
@@ -28,7 +28,9 @@ const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
           title={
             <Stack direction={"column"}>
               <Box>{user.name}</Box>
-              <LastMessage conversationId={conversationId} />
+              {conversationId && (
+                <LastMessage conversationId={conversationId} />
+              )}
             </Stack>
           }
         />
