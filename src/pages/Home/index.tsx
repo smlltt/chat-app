@@ -44,6 +44,7 @@ const Home = () => {
         selectUser={handleSelectUser}
         handleHamurgerClick={toggleShowUsers}
         showUsers={showUsers}
+        recipient={recipient}
       />
       <Conversation
         recipient={recipient}

@@ -10,6 +10,7 @@ interface UsersProps {
   handleHamurgerClick: () => void;
   showUsers: ShowUsers;
   loggedUserId?: string;
+  recipient?: UserType;
 }
 
 const Users: FC<UsersProps> = ({
@@ -17,6 +18,7 @@ const Users: FC<UsersProps> = ({
   handleHamurgerClick,
   showUsers,
   loggedUserId,
+  recipient,
 }) => {
   const usersQuery = loggedUserId
     ? ApiFirebase.availableUsersQuery(loggedUserId)
@@ -31,6 +33,7 @@ const Users: FC<UsersProps> = ({
       handleUserClick={selectUser}
       handleHamurgerClick={handleHamurgerClick}
       showUsers={showUsers}
+      recipient={recipient}
     />
   );
 };

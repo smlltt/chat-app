@@ -15,6 +15,7 @@ interface UsersProps {
   handleUserClick: (user: UserType) => void;
   handleHamurgerClick: () => void;
   showUsers: ShowUsers;
+  recipient?: UserType;
 }
 
 const UsersComponent: FC<UsersProps> = ({
@@ -24,6 +25,7 @@ const UsersComponent: FC<UsersProps> = ({
   handleUserClick,
   handleHamurgerClick,
   showUsers,
+  recipient,
 }) => {
   return (
     <ChatsWrapper xs={showUsers.usersWrapperSpace} sm={4}>
@@ -43,6 +45,7 @@ const UsersComponent: FC<UsersProps> = ({
           handleUserClick={handleUserClick}
           key={user.uid}
           display={showUsers.usersDisplay}
+          recipient={recipient}
         />
       ))}
     </ChatsWrapper>

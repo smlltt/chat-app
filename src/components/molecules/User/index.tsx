@@ -5,14 +5,21 @@ import { styled } from "@mui/material/styles";
 import { UserType } from "api/types";
 import { useAuth } from "hooks";
 import LastMessage from "./LastMessage";
+import theme from "theme";
 
 interface UserInterface {
   user: UserType;
   handleUserClick: (user: UserType) => void;
   display: "none" | "block";
+  recipient?: UserType;
 }
 
-const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
+const User: FC<UserInterface> = ({
+  user,
+  handleUserClick,
+  display,
+  recipient,
+}) => {
   const { user: loggedInUser } = useAuth();
   const conversationId =
     loggedInUser && getConversationId(loggedInUser.uid, user.uid);
@@ -21,6 +28,7 @@ const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
     <StyledCard
       onClick={() => handleUserClick(user)}
       sx={{ display: { xs: display, sm: "block" } }}
+      isSelected={recipient?.uid === user.uid}
     >
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
@@ -28,8 +36,11 @@ const User: FC<UserInterface> = ({ user, handleUserClick, display }) => {
           title={
             <Stack direction={"column"}>
               <Box>{user.name}</Box>
-              {conversationId && (
-                <LastMessage conversationId={conversationId} />
+              {conversationId && loggedInUser && (
+                <LastMessage
+                  conversationId={conversationId}
+                  loggedInUser={loggedInUser.uid}
+                />
               )}
             </Stack>
           }
@@ -53,6 +64,7 @@ const IsOnlineDot = styled(Box)(({ isOnline }: { isOnline: boolean }) => ({
   borderRadius: "50%",
 }));
 
-const StyledCard = styled(Card)({
+const StyledCard = styled(Card)(({ isSelected }: { isSelected: boolean }) => ({
   cursor: "pointer",
-});
+  backgroundColor: isSelected ? theme.palette.userBackgrounds.main : undefined,
+}));

@@ -5,16 +5,22 @@ import { Box } from "@mui/material";
 
 interface LastMessageInterface {
   conversationId: string;
+  loggedInUser: string;
 }
 
-const LastMessage: FC<LastMessageInterface> = ({ conversationId }) => {
+const LastMessage: FC<LastMessageInterface> = ({
+  conversationId,
+  loggedInUser,
+}) => {
   const [lastMessage] = useDocumentData(
     ApiFirebase.lastMessageRef(conversationId)
   );
   const content = lastMessage?.file ? "Picture" : lastMessage?.text || "";
   return (
     <Box
-      fontWeight={lastMessage?.unread ? 800 : 500}
+      fontWeight={
+        lastMessage?.unread && loggedInUser !== lastMessage?.from ? 800 : 500
+      }
       maxWidth={{ sm: 120, md: 180, lg: 300 }}
       whiteSpace={"nowrap"}
       textOverflow={"ellipsis"}
