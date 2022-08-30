@@ -31,7 +31,7 @@ const Home = () => {
         });
   };
 
-  const handleSelectUser = (user: UserType) => {
+  const handleSelectUser = async (user: UserType) => {
     if (!loggedUserId) return;
     setRecipient(user);
     setConversationId(getConversationId(loggedUserId, user.uid));

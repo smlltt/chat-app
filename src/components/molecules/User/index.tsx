@@ -40,6 +40,7 @@ const User: FC<UserInterface> = ({
                 <LastMessage
                   conversationId={conversationId}
                   loggedInUser={loggedInUser.uid}
+                  recipient={recipient}
                 />
               )}
             </Stack>
