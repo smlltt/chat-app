@@ -32,6 +32,7 @@ const User: FC<UserInterface> = ({
     >
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
+          sx={{ padding: { xs: 1, sm: 2 } }}
           avatar={<Avatar src={user.avatar}>{getInitials(user.name)}</Avatar>}
           title={
             <Stack direction={"column"}>
