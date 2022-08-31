@@ -2,8 +2,6 @@ import React, { FC, useState } from "react";
 import { ChatType } from "api/types";
 import { Box, CardMedia } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { ApiFirebase } from "api";
 import theme from "theme";
 import { format, isToday } from "date-fns";
 import { useAuth } from "hooks";
@@ -16,11 +14,8 @@ interface MessageProps {
 const Message: FC<MessageProps> = ({ message }) => {
   const userAuth = useAuth();
 
-  const [user] = useDocumentData(ApiFirebase.userRef(message.from), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
   const loggedUserId = userAuth.user?.uid;
-  const isMessageFromLoggedInUser = user?.uid === loggedUserId;
+  const isMessageFromLoggedInUser = message.from === loggedUserId;
   const date = message.createdAt.toDate();
   const [toggleDate, setToggleDate] = useState(false);
 

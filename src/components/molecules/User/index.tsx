@@ -27,8 +27,8 @@ const User: FC<UserInterface> = ({
   return (
     <StyledCard
       onClick={() => handleUserClick(user)}
-      sx={{ display: { xs: display, sm: "block" } }}
       isSelected={recipient?.uid === user.uid}
+      sx={{ display: { xs: display, sm: "block" } }}
     >
       <Stack direction={"row"} justifyContent={"space-between"}>
         <CardHeader
