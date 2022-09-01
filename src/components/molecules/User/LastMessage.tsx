@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { ApiFirebase } from "api";
 import { Box } from "@mui/material";
-import { UserType } from "../../../api/types";
+import { UserType } from "api/types";
 
 interface LastMessageInterface {
   conversationId: string;

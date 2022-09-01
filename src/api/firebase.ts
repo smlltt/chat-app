@@ -35,8 +35,11 @@ const ApiFirebase = {
     setDoc(doc(db, collection, docId), data);
   },
   deleteFile: (path: string) => deleteObject(ref(storage, path)),
-  detectLogin: (setUser: (user: User | null) => void) => {
-    onAuthStateChanged(auth, (user) => setUser(user));
+  detectLogin: (setUser: (user: User | null) => void, setLoading: (loading: boolean) => void) => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user)
+      setLoading(false)
+    });
   },
   getDownloadURL: (path: string) => getDownloadURL(ref(storage, path)),
   signIn: (email: string, password: string) =>
