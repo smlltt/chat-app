@@ -7,3 +7,11 @@ export interface UserType {
   uid: string;
   createdAt: Timestamp;
 }
+
+export interface ChatType {
+  createdAt: Timestamp;
+  file?: string;
+  from: string;
+  text: string;
+  to: string;
+}
